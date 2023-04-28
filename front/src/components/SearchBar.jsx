@@ -1,18 +1,23 @@
 import {useEffect, useState} from "react";
-import getPets from "../services/PetService";
+import {getPets} from "../services/PetService";
+import AddPet from "./AddPet";
 
 export const SearchBar = ({onPetsChange}) => {
 
     const [filterText, setFilterText] = useState("");
-
+    const [addPetStat, setAddPetStat] = useState("");
     function compareName(petA, petB){
         return petA.name.localeCompare(petB.name);
     }
 
+    const onAddPet = (newstate) => {
+        setAddPetStat(newstate);
+    };
+
     useEffect(()=>{
         getPets()
             .then(result => onPetsChange(result.data.filter(pet => pet.name.includes(filterText)).sort(compareName)));
-    }, [filterText]);
+    }, [filterText, addPetStat]);
 
     return (<div className="col-md-3">
         <div className="gallery-detail">
@@ -32,5 +37,6 @@ export const SearchBar = ({onPetsChange}) => {
                 </section>
             </div>
         </div>
+        <AddPet onAddPet = {onAddPet} />
     </div>);
 }
