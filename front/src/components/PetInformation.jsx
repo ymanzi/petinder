@@ -1,12 +1,12 @@
 import {deletePet} from "../services/PetService";
+import {Link} from "react-router-dom";
 
-const PetInformation = (props) => {
+const PetInformation = ({pet, onDeletedPet}) => {
 
-    const {id, name, profileText, popularity} = props.pet;
+    const {id, name, profileText, popularity} = pet;
     const handleDelete = (id) => {
-        console.log("HandleDelete called");
         deletePet(id)
-            .then(() => props.onDeletedPet())
+            .then(() => onDeletedPet())
             .catch(error => console.log(error.message));
     };
 
@@ -25,6 +25,9 @@ const PetInformation = (props) => {
             >
             Delete Pet
         </button>
+                <Link to="/setupDate" state={{ selectedPet: pet }}>
+                    Kudos
+                </Link>
     </section>
 </div>);
 }

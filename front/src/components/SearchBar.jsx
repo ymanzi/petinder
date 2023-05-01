@@ -3,20 +3,20 @@ import {getPets} from "../services/PetService";
 import AddPet from "./AddPet";
 
 export const SearchBar = ({onPetsChange}) => {
-
     const [filterText, setFilterText] = useState("");
     const [addPetStat, setAddPetStat] = useState("");
-    function compareName(petA, petB){
-        return petA.name.localeCompare(petB.name);
-    }
 
-    const onAddPet = (newstate) => {
-        setAddPetStat(newstate);
+    const onAddPet = (newState) => {
+        setAddPetStat(newState);
     };
+    const filterPets = (pets) => {
+        return pets.filter(pet => pet.name.includes(filterText));
+    }
 
     useEffect(()=>{
         getPets()
-            .then(result => onPetsChange(result.data.filter(pet => pet.name.includes(filterText)).sort(compareName)));
+            .then(result => filterPets(result.data))
+            .then(filteredPets => onPetsChange(filteredPets));
     }, [filterText, addPetStat]);
 
     return (<div className="col-md-3">

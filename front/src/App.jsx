@@ -1,34 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
-import {Header, Footer} from "./components";
-import ProfileGallery from "./components/ProfileGallery";
-import {SearchBar} from "./components/SearchBar";
-import {useEffect, useState} from "react";
+import {Footer, Header} from "./components";
+import Main from "./components/Main";
+import SetupDate from "./components/SetupDate";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 
 export default function App() {
-    const [pets, setPets] = useState([]);
-
-    const onChangeOfPets = (newPets) => {
-      setPets(newPets.sort((a, b) => a.name.localeCompare(b.name)));
-    };
-
-    useEffect(() => {
-         console.log("petsChanged");
-    }, [pets]);
-
-
-
-  return (
-      <div>
-          <Header />
-        <div className="container-fluid">
-            <SearchBar onPetsChange={onChangeOfPets}/>
-          <div className="row">
-              <ProfileGallery pets={pets} onPetsChange={onChangeOfPets}/>
-          </div>
-
+    return (
+        <div>
+            <Header/>
+            <div className="container-fluid">
+                <div className="row">
+                    <BrowserRouter>
+                        <Routes>
+                            <Route exact path="/" element={<Main/>}/>
+                            <Route exact path="/setupDate" element={<SetupDate/>}/>
+                            <Route path="*" element={<Navigate to="/"/>}/>
+                        </Routes>
+                    </BrowserRouter>
+                </div>
+            </div>
+            <Footer/>
         </div>
-          <Footer />
-      </div>
-  );
+    );
 };

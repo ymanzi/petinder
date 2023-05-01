@@ -1,5 +1,6 @@
 import {client} from "../api/Client"
 const getPets = () => {
+    console.log("getPets");
     return client.get('pets');
 }
 
@@ -21,4 +22,9 @@ const deletePet = (id) => {
     return client.delete(`pets/${id}`);
 }
 
-export {getPets, addPet, deletePet};
+const incrementPopularity = (name) => {
+    return client.get(`pets/${name}/incrementPopularity`);
+}
+
+
+export {getPets, addPet, deletePet, incrementPopularity};
